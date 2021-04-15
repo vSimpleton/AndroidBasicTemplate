@@ -1,7 +1,8 @@
-package com.vsimpleton.template
+package com.vsimpleton.template.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.vsimpleton.template.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
