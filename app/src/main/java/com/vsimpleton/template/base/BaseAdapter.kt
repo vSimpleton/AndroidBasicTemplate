@@ -12,22 +12,26 @@ import java.lang.reflect.ParameterizedType
  * 注意：item的最外层布局高度要设为wrap_content，
  * 如果item有需求要设置为固定宽高，可以在子类的convert方法里，通过代码设置
  */
+
+@Suppress("UNCHECKED_CAST")
 abstract class BaseAdapter<VB : ViewBinding, T>(var mContext: Activity, var lists: ArrayList<T>) :
     RecyclerView.Adapter<BaseViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+
         val type = javaClass.genericSuperclass as ParameterizedType
         val clazz = type.actualTypeArguments[0] as Class<VB>
         val method = clazz.getMethod("inflate", LayoutInflater::class.java)
         val vb = method.invoke(null, LayoutInflater.from(mContext)) as VB
+
         vb.root.layoutParams = RecyclerView.LayoutParams(
             RecyclerView.LayoutParams.MATCH_PARENT,
             RecyclerView.LayoutParams.WRAP_CONTENT
         )
+
         return BaseViewHolder(vb, vb.root)
     }
 
-    @Suppress("UNCHECKED_CAST")
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
             itemClick?.let { it(position) }
