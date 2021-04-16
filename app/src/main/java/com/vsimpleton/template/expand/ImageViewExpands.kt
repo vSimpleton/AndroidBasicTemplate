@@ -2,12 +2,11 @@ package com.vsimpleton.template.expand
 
 import android.content.Context
 import android.graphics.Point
-import android.os.Build
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.vsimpleton.template.R
@@ -33,6 +32,15 @@ fun ImageView.loadCircleImage(context: Context, path: String, placeholder: Int =
 fun ImageView.loadRoundImage(context: Context, path: String, cornerRadius: Int = 5, placeholder: Int = R.drawable.shape_f5f5f5) {
     Glide.with(context).load(path).apply(RequestOptions.bitmapTransform(RoundedCorners(cornerRadius))).apply(getOptions(placeholder)).into(this)
 }
+
+///**
+// * 加载圆角矩形图片
+// */
+//fun ImageView.loadRoundImage(context: Context, path: String, cornerRadius: Int = 5,
+//                             placeholder: Int = R.drawable.shape_f5f5f5) {
+//    Glide.with(context).load(path).transform(CenterCrop(), RoundedCorners(cornerRadius)).apply(getOptions(placeholder)).into(
+//        this)
+//}
 
 /**
  * 按照图片的宽高比加载

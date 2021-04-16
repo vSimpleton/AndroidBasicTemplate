@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
-import com.vsimpleton.template.eventbus.MessageEvent
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
+import com.vsimpleton.template.observer.ConcreteObservable
+import com.vsimpleton.template.observer.MessageEvent
+import com.vsimpleton.template.observer.Observer
 import java.lang.reflect.ParameterizedType
 
-open class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
+open class BaseActivity<VB : ViewBinding> : AppCompatActivity(), Observer {
 
     lateinit var mBinding: VB
     lateinit var mContext: FragmentActivity
@@ -22,7 +22,7 @@ open class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
         // 通过反射创建ViewBinding
         val type = javaClass.genericSuperclass as ParameterizedType
-        val clazz = type.actualTypeArguments[1] as Class<VB>
+        val clazz = type.actualTypeArguments[0] as Class<VB>
         val method = clazz.getMethod("inflate", LayoutInflater::class.java)
         mBinding = method.invoke(null, layoutInflater) as VB
 
@@ -32,22 +32,20 @@ open class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     private fun init() {
-        EventBus.getDefault().register(this)
+        ConcreteObservable.register(this)
     }
 
-    //事件传递
-    @Subscribe
-    fun onEventMainThread(msg: MessageEvent) {
+    override fun onDestroy() {
+        super.onDestroy()
+        ConcreteObservable.unRegister(this)
+    }
+
+    override fun update(msg: MessageEvent) {
         handleEvent(msg)
     }
 
     open fun handleEvent(msg: MessageEvent) {
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        EventBus.getDefault().unregister(this)
     }
 
 }

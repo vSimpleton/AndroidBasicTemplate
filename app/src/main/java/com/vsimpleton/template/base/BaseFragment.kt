@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.vsimpleton.template.observer.ConcreteObservable
+import com.vsimpleton.template.observer.MessageEvent
+import com.vsimpleton.template.observer.Observer
 import java.lang.reflect.ParameterizedType
 
-open class BaseFragment<VB : ViewBinding> : Fragment() {
+open class BaseFragment<VB : ViewBinding> : Fragment(), Observer {
 
     lateinit var mContext: Context
     lateinit var mBinding: VB
@@ -29,7 +32,7 @@ open class BaseFragment<VB : ViewBinding> : Fragment() {
         super.onCreate(savedInstanceState)
 
         val type = javaClass.genericSuperclass as ParameterizedType
-        val clazz = type.actualTypeArguments[1] as Class<VB>
+        val clazz = type.actualTypeArguments[0] as Class<VB>
         val method = clazz.getMethod("inflate", LayoutInflater::class.java)
         mBinding = method.invoke(null, layoutInflater) as VB
 
@@ -46,6 +49,20 @@ open class BaseFragment<VB : ViewBinding> : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        ConcreteObservable.register(this)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        ConcreteObservable.unRegister(this)
+    }
+
+    override fun update(msg: MessageEvent) {
+        handleEvent(msg)
+    }
+
+    open fun handleEvent(msg: MessageEvent) {
 
     }
 

@@ -1,12 +1,29 @@
 package com.vsimpleton.template.view
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import com.vsimpleton.template.R
+import android.widget.Toast
+import com.vsimpleton.template.base.BaseActivity
+import com.vsimpleton.template.databinding.ActivityMainBinding
+import com.vsimpleton.template.expand.setOnSingleListener
+import com.vsimpleton.template.observer.MessageEvent
+import com.vsimpleton.template.observer.MsgId
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        mBinding.ivImg.setOnSingleListener {
+            startActivity(Intent(this, TestActivity::class.java))
+        }
     }
+
+    override fun handleEvent(msg: MessageEvent) {
+        when (msg.id) {
+            MsgId.MSG_EXAMPLE -> {
+                Toast.makeText(this, "收到了通知", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 }
