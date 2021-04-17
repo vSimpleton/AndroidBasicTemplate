@@ -1,7 +1,7 @@
-package com.unite.wallpaper.key.api
+package com.vsimpleton.template.api
 
 import android.util.Log
-import com.unite.wallpaper.key.BuildConfig
+import com.vsimpleton.template.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
