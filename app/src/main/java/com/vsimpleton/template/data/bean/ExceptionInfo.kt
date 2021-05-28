@@ -1,7 +1,6 @@
 package com.vsimpleton.template.data.bean
 
-data class BaseModel<T>(
+data class ExceptionInfo(
     val code: Int,
-    val msg: String,
-    val data: T
+    val message: String = ""
 )

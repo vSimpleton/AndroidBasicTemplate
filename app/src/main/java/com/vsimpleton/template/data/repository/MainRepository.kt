@@ -2,7 +2,7 @@ package com.vsimpleton.template.data.repository
 
 import com.vsimpleton.template.api.ApiService
 import com.vsimpleton.template.api.BASE_URL
-import com.vsimpleton.template.data.bean.BaseModel
+import com.vsimpleton.template.data.bean.BaseResponse
 import com.vsimpleton.template.data.bean.TestBean
 import com.vsimpleton.template.utils.createApiFactory
 import javax.inject.Inject
@@ -19,7 +19,7 @@ class MainRepository @Inject constructor() {
 
     private val apiService = createApiFactory<ApiService>(BASE_URL)
 
-    suspend fun getTestList(): BaseModel<TestBean> {
+    suspend fun getTestList(): BaseResponse<TestBean> {
         return apiService.getTest()
     }
 

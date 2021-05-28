@@ -3,7 +3,6 @@ package com.vsimpleton.template.base
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
 import com.vsimpleton.template.observer.ConcreteObservable
 import com.vsimpleton.template.observer.MessageEvent
@@ -12,13 +11,11 @@ import java.lang.reflect.ParameterizedType
 
 open class BaseActivity<VB : ViewBinding> : AppCompatActivity(), Observer {
 
-    lateinit var mBinding: VB
-    lateinit var mContext: FragmentActivity
+    protected lateinit var mBinding: VB
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mContext = this
 
         // 通过反射创建ViewBinding
         val type = javaClass.genericSuperclass as ParameterizedType
