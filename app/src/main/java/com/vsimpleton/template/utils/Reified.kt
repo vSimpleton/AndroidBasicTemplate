@@ -18,7 +18,7 @@ inline fun <reified T> startActivity(context: Context, block: Intent.() -> Unit)
     context.startActivity(intent)
 }
 
-inline fun <reified T : BaseViewModel> createViewModel(owner: FragmentActivity): T {
+inline fun <reified T : BaseViewModel> createNormalViewModel(owner: FragmentActivity): T {
     return ViewModelProvider(owner).get(T::class.java)
 }
 

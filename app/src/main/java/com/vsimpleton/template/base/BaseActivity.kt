@@ -4,12 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
-import com.vsimpleton.template.observer.ConcreteObservable
-import com.vsimpleton.template.observer.MessageEvent
-import com.vsimpleton.template.observer.Observer
 import java.lang.reflect.ParameterizedType
 
-open class BaseActivity<VB : ViewBinding> : AppCompatActivity(), Observer {
+open class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     protected lateinit var mBinding: VB
 
@@ -24,24 +21,6 @@ open class BaseActivity<VB : ViewBinding> : AppCompatActivity(), Observer {
         mBinding = method.invoke(null, layoutInflater) as VB
 
         setContentView(mBinding.root)
-
-        init()
-    }
-
-    private fun init() {
-        ConcreteObservable.register(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        ConcreteObservable.unRegister(this)
-    }
-
-    override fun update(msg: MessageEvent) {
-        handleEvent(msg)
-    }
-
-    open fun handleEvent(msg: MessageEvent) {
 
     }
 

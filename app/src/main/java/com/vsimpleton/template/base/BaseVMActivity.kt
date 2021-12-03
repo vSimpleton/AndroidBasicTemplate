@@ -35,9 +35,9 @@ abstract class BaseVMActivity<VB : ViewBinding, VM : BaseViewModel> : BaseActivi
      */
     open fun onLoading(isLoading: Boolean) {
         if (isLoading) {
-            Toast.makeText(this, "开始加载", Toast.LENGTH_SHORT).show()
+
         } else {
-            Toast.makeText(this, "结束加载", Toast.LENGTH_SHORT).show()
+
         }
     }
 
